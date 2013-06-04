@@ -37,10 +37,12 @@
     },
     scrollStep: function(end, callback) {
       var perScroll;
-      if (end > this.scroller.scrollTop) {
+      if (end > this.scroller[this.scrollType]) {
         perScroll = this.step / this.scrollSpeed;
         this.scrollInterval = setInterval(function() {
           if (end <= this.scroller[this.scrollType]) {
+            console.log(end, this.scroller[this.scrollType]);
+            clearTimeout(this.scrollTimeout);
             clearInterval(this.scrollInterval);
             callback();
             return;
@@ -51,6 +53,7 @@
         perScroll = (this.scroller.scrollHeight - this.step) / this.scrollSpeed;
         this.scrollInterval = setInterval(function() {
           if (end >= this.scroller[this.scrollType]) {
+            clearTimeout(this.scrollTimeout);
             clearInterval(this.scrollInterval);
             callback();
             return;
@@ -60,13 +63,13 @@
       }
     },
     autoScroll: function() {
-      if (this.scroller.scrollTop >=
+      if (this.scroller.scrollTop + this.step >
           this.scroller.scrollHeight - this.step) {
         this.index = 0;
       }
 
       this.scrollStep(this.index * this.step, function() {
-        setTimeout(function() {
+        this.scrollTimeout = setTimeout(function() {
           this.autoScroll();
         }.bind(this), this.tick);
       }.bind(this));
