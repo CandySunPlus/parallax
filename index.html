@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Parallax Demo</title>
+<style type="text/css">
+div {
+  width: 950px;
+  height: 600px;
+}
+#box {
+  /* overflow-y: scroll; */
+  overflow: hidden;
+}
+.bg1 {
+  background-image: url(bg1.jpg);
+}
+
+.bg1 div {
+  background-image: url(bg1.png);
+  position: relative;
+}
+.bg2 {
+  background-image: url(bg2.jpg);
+}
+
+.bg2 div {
+  background-image: url(bg2.png);
+  position: relative;
+}
+.bg3 {
+  background-image: url(bg3.jpg);
+}
+
+.bg3 div {
+  background-image: url(bg2.png);
+  position: relative;
+}
+</style>
+</head>
+<body>
+
+<div id="box">
+  <div id="bg1" class="bg1">
+    <div id="bg2"></div>
+  </div>
+  <div id="bg3" class="bg2">
+    <div id="bg4"></div>
+  </div>
+  <div id="bg5" class="bg3">
+    <div id="bg6"></div>
+  </div>
+</div>
+<script type="text/javascript" src="./src/parallax.js"></script>
+<script type="text/javascript">
+var parallax1 = new Parallax('bg1', {
+  speed: 0.3,
+  axis: 'y',
+  start: 0,
+  scroller: 'box'
+});
+var parallax2 = new Parallax('bg2', {
+  speed: 0.6,
+  axis: 'y',
+  start: 0,
+  scroller: 'box'
+});
+var parallax3 = new Parallax('bg3', {
+  speed: 0.3,
+  start: 600,
+  axis: 'y',
+  scroller: 'box'
+});
+var parallax4 = new Parallax('bg4', {
+  speed: 0.6,
+  start: 600,
+  axis: 'y',
+  scroller: 'box'
+});
+var parallax5 = new Parallax('bg5', {
+  speed: 0.3,
+  start: 1200,
+  axis: 'y',
+  scroller: 'box'
+});
+var parallax6 = new Parallax('bg6', {
+  speed: 0.6,
+  start: 1200,
+  axis: 'y',
+  scroller: 'box'
+});
+</script>
+</body>
+</html>
