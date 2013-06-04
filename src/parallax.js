@@ -41,7 +41,6 @@
         perScroll = this.step / this.scrollSpeed;
         this.scrollInterval = setInterval(function() {
           if (end <= this.scroller[this.scrollType]) {
-            console.log(end, this.scroller[this.scrollType]);
             clearTimeout(this.scrollTimeout);
             clearInterval(this.scrollInterval);
             callback();
