@@ -138,8 +138,7 @@
       axis: 'y',
       delay: 3000,
       speed: 0.5,
-      itemNode: '.child',
-      childNode: 'div'
+      itemNode: '.child'
     };
 
     this.index = 0;
@@ -186,10 +185,14 @@
       if (className.split(' ').indexOf('selected') !== -1) {
         return;
       }
+      //clear player scroll animation
       clearTimeout(this.scrollTimeout);
+      //clear parallax animation
       clearInterval(this.scrollInterval);
+      //set scroll index
       this.index = this.indicatorDots.indexOf(e.target);
-      this.autoScroll();
+      //play scroll animation
+      this.play();
     },
     createParallaxes: function(items) {
       for (var i = 0; i < items.length; i++) {
@@ -199,15 +202,6 @@
           axis: this.options.axis,
           scroller: this.box
         });
-        var childs = items[i].children;
-        for (var j = 0; j < childs.length; j++) {
-          new Parallax(childs[j], {
-            speed: 0.1,
-            start: i * 600,
-            axis: this.options.axis,
-            scroller: this.box
-          });
-        }
       }
     },
     scrollStep: function(end, callback) {
@@ -237,9 +231,8 @@
       }
     },
     autoScroll: function() {
-      var scrollBottom = this.box.scrollTop + this.step;
       //if is the last scoll item, return to the first
-      if (scrollBottom == this.box.scrollHeight) {
+      if (this.index >= this.indicatorDots.length) {
         this.index = 0;
       }
       //scroll to the index of scroll item
@@ -254,9 +247,11 @@
       this.index++;
     },
     selectIndex: function(index) {
+      //clear all indicator dot's selected status
       for (var i = 0, l = this.indicatorDots.length; i < l; i++) {
         this.indicatorDots[i].className = 'dot';
       }
+      //add selected status for selected indicator dot
       this.indicatorDots[index].className =
         this.indicatorDots[index].className + ' selected';
     },

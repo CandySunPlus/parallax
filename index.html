@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <title>Parallax Demo</title>
 <style type="text/css">
-div {
+/* for parallax */
+#box, .child {
   width: 950px;
   height: 600px;
 }
@@ -17,26 +18,15 @@ div {
   background-image: url(bg1.jpg);
 }
 
-.bg1 div {
-  background-image: url(bg1.png);
-  position: relative;
-}
 .bg2 {
   background-image: url(bg2.jpg);
 }
 
-.bg2 div {
-  background-image: url(bg2.png);
-  position: relative;
-}
 .bg3 {
   background-image: url(bg3.jpg);
 }
 
-.bg3 div {
-  background-image: url(bg2.png);
-  position: relative;
-}
+/* for parallax player */
 .indicator {
   position: absolute;
   height: 13px;
@@ -59,13 +49,22 @@ div {
 
 <div id="box">
   <div class="bg1 child">
-    <div></div>
+    <img src="./bg1.png" alt="免费改衣服务" usemap="#map1" />
+    <map id="map1" name="map1">
+      <area shape="rect" coords="172,305,293,334" href="http://www.baidu.com" alt="免费改衣服务" />
+    </map>
   </div>
   <div class="bg2 child">
-    <div></div>
+    <img src="./bg2.png" alt="夏季新品上市" usemap="#map2" />
+    <map id="map2" name="map2">
+      <area shape="rect" coords="41,295,147,317" href="http://www.baidu.com" alt="夏季新品上市" />
+    </map>
   </div>
   <div class="bg3 child">
-    <div></div>
+    <img src="./bg2.png" alt="夏季新品上市" usemap="#map3" />
+    <map id="map3" name="map3">
+      <area shape="rect" coords="41,295,147,317" href="http://www.baidu.com" alt="夏季新品上市" />
+    </map>
   </div>
 </div>
 <script type="text/javascript" src="./src/parallax.js"></script>
