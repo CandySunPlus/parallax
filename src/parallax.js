@@ -83,7 +83,14 @@
   };
 
   var Parallax = function(target, options) {
-    this.options = options;
+    this.option = {
+      speed: 0.5,
+      start: 0,
+      axis: 'y',
+      scroller: document
+    };
+
+    this.options = extend(this.option, options);
     this.target = $(target);
     this.scroller = $(this.options.scroller);
     this.scrollType = this.isX() ? 'scrollLeft' : 'scrollTop';
@@ -162,7 +169,7 @@
         indicatorDot.className = 'dot';
         indicator.appendChild(indicatorDot);
         this.bindEvent(indicatorDot, 'click', function(e) {
-          this.selectIndex(i);
+          this.scrollTo(e);
         }.bind(this));
         indicatorDots.push(indicatorDot);
         indicatorWidth += indicatorDot.offsetWidth;
@@ -173,8 +180,16 @@
         (this.box.offsetWidth - indicatorWidth) / 2 + 'px';
       indicator.style.visibility = '';
     },
-    selectIndex: function(index) {
-      console.log(index);
+    scrollTo: function(e) {
+      var className = e.target.className;
+      //if the indicator dot is selected
+      if (className.split(' ').indexOf('selected') !== -1) {
+        return;
+      }
+      clearTimeout(this.scrollTimeout);
+      clearInterval(this.scrollInterval);
+      this.index = this.indicatorDots.indexOf(e.target);
+      this.autoScroll();
     },
     createParallaxes: function(items) {
       for (var i = 0; i < items.length; i++) {
@@ -222,26 +237,28 @@
       }
     },
     autoScroll: function() {
-      if (this.box.scrollTop + this.step >
-          this.box.scrollHeight - this.step) {
+      var scrollBottom = this.box.scrollTop + this.step;
+      //if is the last scoll item, return to the first
+      if (scrollBottom == this.box.scrollHeight) {
         this.index = 0;
       }
-
+      //scroll to the index of scroll item
       this.scrollStep(this.index * this.step, function() {
         this.scrollTimeout = setTimeout(function() {
+          //new scroll timeout
           this.autoScroll();
         }.bind(this), this.options.delay);
       }.bind(this));
-
-      this.index++;
+      //select indicator
       this.selectIndex(this.index);
+      this.index++;
     },
     selectIndex: function(index) {
       for (var i = 0, l = this.indicatorDots.length; i < l; i++) {
         this.indicatorDots[i].className = 'dot';
       }
-      this.indicatorDots[index - 1].className =
-        this.indicatorDots[index - 1].className + ' selected';
+      this.indicatorDots[index].className =
+        this.indicatorDots[index].className + ' selected';
     },
     play: function() {
       this.autoScroll();
