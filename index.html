@@ -10,6 +10,7 @@ div {
 }
 #box {
   /* overflow-y: scroll; */
+  /* overflow-x: hidden; */
   overflow: hidden;
 }
 .bg1 {
@@ -36,6 +37,22 @@ div {
   background-image: url(bg2.png);
   position: relative;
 }
+.indicator {
+  position: absolute;
+  height: 13px;
+  overflow: hidden;
+}
+.dot {
+  background-image: url(dot.png);
+  float: left; 
+  margin: 0 2px;
+  width: 13px;
+  height: 13px;
+  cursor: pointer;
+}
+.selected {
+  background-image: url(selected-dot.png);
+}
 </style>
 </head>
 <body>
@@ -54,7 +71,7 @@ div {
 <script type="text/javascript" src="./src/parallax.js"></script>
 <script type="text/javascript">
 var parallaxPlayer = new ParallaxPlayer('#box', {
-  delay: 3000,
+  delay: 8000,
   speed: 0.5,
   axis: 'y'
 });

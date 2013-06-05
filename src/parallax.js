@@ -98,7 +98,7 @@
       return + this.scroller[this.scrollType] - this.options.start;
     },
     addScrollEvent: function(scroller) {
-      scroller.addEventListener('scroll', function(e) {
+      this.bindEvent(scroller, 'scroll', function(e) {
         this.onScroll(e);
       }.bind(this));
     },
@@ -106,6 +106,23 @@
       var xPos = this.isX() ? (this.dist() * this.options.speed) + 'px' : 0;
       var yPos = this.isX() ? 0 : (this.dist() * this.options.speed) + 'px';
       this.target.style.backgroundPosition = xPos + ' ' + yPos;
+    },
+    bindEvent: function(target, event, func) {
+      if (window.addEventListener) {
+        target.addEventListener(event, function(e) {
+          func(e);
+        });
+      } else if (window.attachEvent) {
+        target.attachEvent('on' + event, function() {
+          if (window.event) {
+            func(window.event);
+          } else {
+            func();
+          }
+        });
+      } else {
+        throw 'browser not support event listener';
+      }
     }
   };
 
@@ -124,13 +141,40 @@
     this.options = extend(this.options, options);
     this.scrollSpeed = 100 - this.options.speed * 100;
     this.scrollType = this.isX() ? 'scrollLeft' : 'scrollTop';
-    var items = $(this.options.itemNode, this.box);
-    this.createParallaxes(items[0]);
+    this.items = $(this.options.itemNode, this.box)[0];
+    this.addIndicator();
+    this.createParallaxes(this.items);
   };
 
   ParallaxPlayer.prototype = {
     isX: function() {
       return this.options.axis === 'x';
+    },
+    addIndicator: function() {
+      var indicatorDots = [];
+      var indicatorWidth = 0;
+      var indicator = document.createElement('div');
+      indicator.className = 'indicator';
+      indicator.style.top = this.step - 10 + 'px';
+      indicator.style.visibility = 'hidden';
+      for (var i = 0, l = this.items.length; i < l; i++) {
+        var indicatorDot = document.createElement('div');
+        indicatorDot.className = 'dot';
+        indicator.appendChild(indicatorDot);
+        this.bindEvent(indicatorDot, 'click', function(e) {
+          this.selectIndex(i);
+        }.bind(this));
+        indicatorDots.push(indicatorDot);
+        indicatorWidth += indicatorDot.offsetWidth;
+      }
+      this.indicatorDots = indicatorDots;
+      this.box.appendChild(indicator);
+      indicator.style.left =
+        (this.box.offsetWidth - indicatorWidth) / 2 + 'px';
+      indicator.style.visibility = '';
+    },
+    selectIndex: function(index) {
+      console.log(index);
     },
     createParallaxes: function(items) {
       for (var i = 0; i < items.length; i++) {
@@ -193,10 +237,31 @@
       this.selectIndex(this.index);
     },
     selectIndex: function(index) {
-      console.log(index);
+      for (var i = 0, l = this.indicatorDots.length; i < l; i++) {
+        this.indicatorDots[i].className = 'dot';
+      }
+      this.indicatorDots[index - 1].className =
+        this.indicatorDots[index - 1].className + ' selected';
     },
     play: function() {
       this.autoScroll();
+    },
+    bindEvent: function(target, event, func) {
+      if (window.addEventListener) {
+        target.addEventListener(event, function(e) {
+          func(e);
+        });
+      } else if (window.attachEvent) {
+        target.attachEvent('on' + event, function() {
+          if (window.event) {
+            func(window.event);
+          } else {
+            func();
+          }
+        });
+      } else {
+        throw 'browser not support event listener';
+      }
     }
   };
 
