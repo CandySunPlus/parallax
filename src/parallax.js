@@ -51,8 +51,9 @@
           }
           //for IE and other old browsers
           else {
-            var hasClassName =
-              new RegExp('(?:^|\\s)' + selector[1] + '(?:$|\\s)');
+            var hasClassName = new RegExp(
+              '(?:^|\\s)' + selector[1] + '(?:$|\\s)'
+            );
             var element;
             //parse all elements
             for (var j = 0; (element = elements[j]) != null; j++) {
@@ -175,8 +176,9 @@
       }
       this.indicatorDots = indicatorDots;
       this.box.appendChild(indicator);
-      indicator.style.left =
-        (this.box.offsetWidth - indicatorWidth) / 2 + 'px';
+      indicator.style.left = (
+        this.box.offsetWidth - indicatorWidth
+      ) / 2 + 'px';
       indicator.style.visibility = '';
     },
     scrollTo: function(e) {
@@ -252,8 +254,9 @@
         this.indicatorDots[i].className = 'dot';
       }
       //add selected status for selected indicator dot
-      this.indicatorDots[index].className =
-        this.indicatorDots[index].className + ' selected';
+      this.indicatorDots[index].className = this.indicatorDots[
+        index
+      ].className + ' selected';
     },
     play: function() {
       this.autoScroll();
